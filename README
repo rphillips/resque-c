@@ -1,0 +1,21 @@
+obelisk is a fast JSON RPC server build upon libevent2. 
+
+GIT Checkout
+============
+
+# git clone git://github.com/rphillips/obelisk.git
+# cd obelisk
+# git submodule init
+# git submodule update
+
+Compile
+=======
+
+# ./autogen.sh
+# ./configure
+# make
+
+Running
+=======
+
+# src/obelisk

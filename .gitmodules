@@ -1,0 +1,6 @@
+[submodule "deps/jansson"]
+	path = deps/jansson
+	url = git://github.com/akheron/jansson.git
+[submodule "deps/libevent"]
+	path = deps/libevent
+	url = git://github.com/rphillips/libevent.git
