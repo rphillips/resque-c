@@ -6,4 +6,6 @@ resque_CFLAGS = \
 	-I$(top_srcdir)/deps/jansson/src \
 	-I$(top_srcdir)/deps/libev
 resque_SOURCES = \
-	resque.c
+	resque.c \
+	resque-error.c \
+	redis-client.c

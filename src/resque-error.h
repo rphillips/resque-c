@@ -34,31 +34,27 @@ typedef struct {
 
 #define RESQUE_SUCCESS (NULL)
 
-#define resque_error_create(id, err, msg) resque_error_create_impl(id, err,      \
+#define resque_error_create(id, err, msg) resque_error_create_impl(err,      \
                                                        msg,      \
                                                        __LINE__, \
                                                        __FILE__)
 
-#define resque_error_createf(id, err, fmt, ...) resque_error_createf_impl(id, err,      \
+#define resque_error_createf(id, err, fmt, ...) resque_error_createf_impl(err,      \
                                                               __LINE__, \
                                                               __FILE__, \
                                                               fmt,      \
                                                               __VA_ARGS__)
 
 resque_error_t*
-resque_error_create_impl(json_t *id,
-                     resque_error_errno_t err,
-                     const char *msg,
-                     unsigned int line,
-                     const char *file);
+resque_error_create_impl(const char *msg,
+                         unsigned int line,
+                         const char *file);
 
 resque_error_t*
-resque_error_createf_impl(json_t *id, 
-                      resque_error_errno_t err,
-                      unsigned int line,
-                      const char *file, 
-                      const char *fmt,
-                      ...);
+resque_error_createf_impl(unsigned int line,
+                          const char *file, 
+                          const char *fmt,
+                          ...);
 
 void
 resque_error_destroy(resque_error_t *err);

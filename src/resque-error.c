@@ -27,12 +27,12 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include <string.h>
-#include "resque_error.h"
+#include "resque-error.h"
 
 resque_error_t*
 resque_error_create_impl(const char *msg,
-                     unsigned int line,
-                     const char *file)
+                         unsigned int line,
+                         const char *file)
 {
     resque_error_t *err = malloc(sizeof(resque_error_t));
     err->line = line;
