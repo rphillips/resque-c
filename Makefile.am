@@ -1,1 +1,1 @@
-SUBDIRS = deps src
+SUBDIRS = deps src test

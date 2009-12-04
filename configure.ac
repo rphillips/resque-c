@@ -59,6 +59,7 @@ AC_CHECK_FUNCS([bzero floor localeconv memchr memset modf pow setlocale socket s
 
 AC_CONFIG_FILES([deps/Makefile
                  src/Makefile 
+                 test/Makefile
                  Makefile
                 ])
 AC_CONFIG_SUBDIRS([deps/libev deps/jansson])
