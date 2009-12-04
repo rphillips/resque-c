@@ -24,6 +24,7 @@
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 #include <ev.h>
+#include <evcom.h>
 
 int main(int argc, const char **argv)
 {
