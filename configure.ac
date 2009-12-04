@@ -2,8 +2,8 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.63])
-AC_INIT([obelisk], [0.0.2-dev], [ryan@trolocsis.com])
-AC_CONFIG_HEADERS([obelisk_config.h])
+AC_INIT([resque], [0.0.1-dev], [ryan@trolocsis.com])
+AC_CONFIG_HEADERS([resque_config.h])
 
 AM_INIT_AUTOMAKE(AC_PACKAGE_NAME, AC_PACKAGE_VERSION)
 
