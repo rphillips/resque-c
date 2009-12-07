@@ -1,4 +1,3 @@
 SUBDIRS = \
-	libev \
 	evcom \
 	jansson

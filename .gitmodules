@@ -3,4 +3,4 @@
 	url = git://github.com/akheron/jansson.git
 [submodule "deps/evcom"]
 	path = deps/evcom
-	url = git://github.com/ry/evcom.git
+	url = git@github.com:rphillips/evcom.git

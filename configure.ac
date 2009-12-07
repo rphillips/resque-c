@@ -58,9 +58,10 @@ AC_FUNC_STRCOLL
 AC_CHECK_FUNCS([bzero floor localeconv memchr memset modf pow setlocale socket sqrt strchr strcspn strerror strpbrk strrchr strstr strtoul])
 
 AC_CONFIG_FILES([deps/Makefile
+                 libredis/Makefile
                  src/Makefile 
                  test/Makefile
                  Makefile
                 ])
-AC_CONFIG_SUBDIRS([deps/libev deps/jansson])
+AC_CONFIG_SUBDIRS([deps/evcom deps/jansson])
 AC_OUTPUT

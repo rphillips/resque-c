@@ -1,1 +1,1 @@
-SUBDIRS = deps src test
+SUBDIRS = deps libredis src test
