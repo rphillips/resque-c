@@ -39,5 +39,8 @@ redis_client_create(char *host, short port, EV_P );
 void
 redis_client_destroy(redis_client_t *cli);
 
+void
+redis_client_get(redis_client_t *cli, const char *key);
+
 #endif
 

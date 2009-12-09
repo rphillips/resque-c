@@ -9,6 +9,7 @@ int main()
     loop = ev_default_loop(0);
     
     client = redis_client_create(NULL, 0, loop);
+    redis_client_get(client, "test");
 
     ev_loop(loop, 0);
 

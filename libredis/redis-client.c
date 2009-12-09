@@ -1,24 +1,31 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "redis-client.h"
 
 #define REDIS_DEFAULT_PORT    (6379)
 #define REDIS_TIMEOUT_CONNECT (10.0)
 
-static void redis_on_connect(struct evcom_stream *stream)
+static void redis_on_connect(evcom_stream *stream)
 {
     printf("on connect\n");
 }
 
-static void redis_on_timeout(struct evcom_stream *stream)
+static void redis_on_timeout(evcom_stream *stream)
 {
     printf("on timeout\n");
 }
 
-static void redis_on_read(struct evcom_stream *stream)
+static void
+redis_on_read(evcom_stream *stream, const void *buf, size_t len)
 {
+    int i;
     printf("on read\n");
+
+    for (i=0; i<len; i++) {
+        printf("%c", ((const char*)buf)[i]);
+    }
 }
 
 static void redis_on_close(struct evcom_stream *stream)
@@ -73,8 +80,31 @@ redis_client_create(char *host, short port, EV_P)
         return NULL;
     }
 
+    /* Attach the stream to the event loop */
     evcom_stream_attach(EV_DEFAULT_ &cli->stream);
 
     return cli;
+}
+
+static int 
+redis_client_sendf(redis_client_t *cli, const char *fmt, ...)
+{
+    char buffer[4096];
+    int length;
+    va_list args;
+
+    va_start(args, fmt);
+    length = vsnprintf(buffer, sizeof(buffer), fmt, args);
+    va_end(args);
+
+    evcom_stream_write(&cli->stream, buffer, length);
+
+    return 0;
+}
+
+void
+redis_client_get(redis_client_t *cli, const char *key)
+{
+    redis_client_sendf(cli, "GET %s\r\n", key);
 }
 
