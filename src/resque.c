@@ -23,10 +23,33 @@
  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
  * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
-#include <ev.h>
-#include <evcom.h>
+#include <stdio.h>
+#include "resque.h"
 
 int main(int argc, const char **argv)
 {
+    char ch;
+    resque_t resque;
+
+    memset(&resque, 0, sizeof(resque));
+
+    while ((ch = getopt(argc, argv, "w")) != -1) {
+        switch (ch) {
+        case 'w':
+            resque.worker = 1;
+            break;
+        default:
+            abort();
+        }
+    }
+
+    resque.interval = 5.0;
+
+    if (resque.worker) {
+        fprintf(stderr, "Starting worker\n");
+        resque_worker(&resque);
+    }
+
     return 0;
 }
+

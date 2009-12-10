@@ -5,9 +5,11 @@ resque_LDADD = \
 	$(top_srcdir)/libredis/libredis-c.la
 resque_CFLAGS = \
 	-I$(top_srcdir)/deps/jansson/src \
-	-I$(top_srcdir)/deps/evcom
+	-I$(top_srcdir)/deps/evcom \
+	-I$(top_srcdir)/libredis
 resque_LDFLAGS = -lev
 resque_SOURCES = \
 	resque.c \
-	resque-error.c
+	resque-error.c \
+	resque-worker.c
 

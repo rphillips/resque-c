@@ -14,10 +14,9 @@ int main()
     struct ev_loop *loop;
     
     loop = ev_default_loop(0);
-    
+
     client = redis_client_create(NULL, 0, loop);
     redis_client_set_verbosity(client, 2);
-
     redis_client_get(client, "test", 
                      redis_deferred_create(client, cb_get));
 
