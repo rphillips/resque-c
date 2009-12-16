@@ -6,6 +6,18 @@ GIT Checkout
 # git submodule init
 # git submodule update
 
+License
+=======
+
+See LICENSE file.
+
+Dependencies
+============
+
+1. libev
+
+The rest of the dependencies are included.
+
 Compile
 =======
 
@@ -16,4 +28,4 @@ Compile
 Running
 =======
 
-# src/resque
+# src/resque -w
