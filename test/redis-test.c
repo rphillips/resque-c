@@ -18,7 +18,7 @@ int main()
     client = redis_client_create(NULL, 0, loop);
     redis_client_set_verbosity(client, 2);
     redis_client_get(client, "test", 
-                     redis_deferred_create(client, cb_get));
+                     redis_deferred_create(client, cb_get, NULL));
 
     ev_loop(loop, 0);
 

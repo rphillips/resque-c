@@ -8,11 +8,12 @@
 #define REDIS_TIMEOUT_CONNECT (10.0)
 
 redis_deferred_t*
-redis_deferred_create(redis_client_t *cli, redis_deferred_cb cb)
+redis_deferred_create(redis_client_t *cli, redis_deferred_cb cb, void *baton)
 {
     redis_deferred_t *d = malloc(sizeof(*d));
     d->cb = cb;
     d->cli = cli;
+    d->baton = baton;
     return d;
 }
 
@@ -31,13 +32,11 @@ redis_cb_get(redis_deferred_t *d, char *buffer, size_t len)
 static void 
 redis_on_connect(evcom_stream *stream)
 {
-    printf("on connect\n");
 }
 
 static void 
 redis_on_timeout(evcom_stream *stream)
 {
-    printf("on timeout\n");
 }
 
 static int 
@@ -61,8 +60,6 @@ redis_on_read(evcom_stream *stream, const void *buf, size_t len)
 {
     redis_client_t *cli = stream->data;
 
-    fprintf(stderr, "on read\n");
-
     if (cli->verbose > 1) {
         int i;
         for (i=0; i<len; i++) {
@@ -74,7 +71,7 @@ redis_on_read(evcom_stream *stream, const void *buf, size_t len)
     while (!evcom_queue_empty(&cli->deferred_queue)) {
         evcom_queue *q = evcom_queue_last(&cli->deferred_queue);
         redis_deferred_t *d = evcom_queue_data(q, redis_deferred_t, queue);
-        d->cb(d, buf, len);
+        d->cb(d, buf, len, d->baton);
         evcom_queue_remove(q);
         redis_deferred_free(d);
     }
@@ -124,7 +121,6 @@ redis_client_create(char *host, short port, EV_P)
     cli->stream.on_timeout = redis_on_timeout;
     cli->stream.on_close   = redis_on_close;
     cli->stream.data       = cli;
-    evcom_stream_reset_timeout(&cli->stream, REDIS_TIMEOUT_CONNECT);
 
     /* setup deferred queue */
     evcom_queue_init(&cli->deferred_queue);
@@ -152,7 +148,7 @@ redis_client_create(char *host, short port, EV_P)
 void
 redis_client_get(redis_client_t *cli, const char *key, redis_deferred_t *cdefer)
 {
-    redis_deferred_t *d = redis_deferred_create(cli, redis_cb_get);
+    redis_deferred_t *d = redis_deferred_create(cli, redis_cb_get, NULL);
     redis_client_sendf(cli, "GET %s\r\n", key);
     evcom_queue_insert_head(&cli->deferred_queue, &d->queue);
     if (cdefer) {
@@ -163,7 +159,7 @@ redis_client_get(redis_client_t *cli, const char *key, redis_deferred_t *cdefer)
 void
 redis_client_lpop(redis_client_t *cli, const char *key, redis_deferred_t *cdefer)
 {
-    redis_deferred_t *d = redis_deferred_create(cli, redis_cb_get);
+    redis_deferred_t *d = redis_deferred_create(cli, redis_cb_get, NULL);
     redis_client_sendf(cli, "LPOP %s\r\n", key);
     evcom_queue_insert_head(&cli->deferred_queue, &d->queue);
     if (cdefer) {

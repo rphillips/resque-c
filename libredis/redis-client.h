@@ -4,11 +4,10 @@
 #include <ev.h>
 #include <evcom.h>
 
-typedef struct {
+typedef struct redis_error_t {
     int err;
 } redis_error_t;
 
-struct redis_client_t;
 struct redis_client_t {
     /* libev datatypes */
     evcom_stream stream;    
@@ -33,12 +32,14 @@ typedef struct redis_client_t redis_client_t;
 struct redis_deferred_t;
 typedef int(*redis_deferred_cb)(struct redis_deferred_t *d, 
                                 char *buffer, 
-                                size_t len);
+                                size_t len,
+                                void *baton);
 
 typedef struct redis_deferred_t {
     redis_client_t *cli;
     redis_deferred_cb cb;
     evcom_queue queue;
+    void *baton;
 } redis_deferred_t;
 
 /** 
@@ -50,7 +51,7 @@ redis_client_t*
 redis_client_create(char *host, short port, EV_P );
 
 redis_deferred_t*
-redis_deferred_create(redis_client_t *cli, redis_deferred_cb cb);
+redis_deferred_create(redis_client_t *cli, redis_deferred_cb cb, void *baton);
 
 void
 redis_client_set_verbosity(redis_client_t *cli, int verbosity);
