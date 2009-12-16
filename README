@@ -1,3 +1,32 @@
+Why resque-c?
+=============
+
+Chris Wanstrath (defunkt on github) did a fine job implementing resque in Ruby.
+My requirements include the following:
+
+ * Embedded Targets
+    - Ruby is a tough sell to include in a memory restricted environment.
+
+TODO
+====
+
+Figure out:
+
+1. Job execution
+2. JSON payload
+
+resque uses a JSON payload that includes the class name. ie:
+
+{
+        'class': 'Archive',
+        'args': [ 44, 'masterbrew' ]
+}
+
+I believe the payload should probably stay the same, but I'm considering using
+Lua (www.lua.org) to implement the job. For example:
+
+Archive:new(44, 'masterbrew').execute()
+
 GIT Checkout
 ============
 
